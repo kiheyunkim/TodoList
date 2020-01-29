@@ -1,31 +1,27 @@
 const express = require('express');
-const session = require('express-session');
-
 const passport = require('./controller/passport');
-const routers = require('./Router/Router');
-
+const mysqlSession = require('./controller/Session/session')
+const csp = require('./controller/CSP/csp');
+//const routers = require('./Router/Router');
 const app = express();
-const router = express.Router();
 
-//Set Public Dir
-app.use(express.static(__dirname+'/public'));
-
-//add Google oauth2.0
-passport.Addpassport(app,router);
-//Add Express Router
-routers.Router(router);
-//add session
-app.use(session({
-        resave:false,
-        saveUninitialized:true,//세션 아이디 고정
-        secret:'1234456789',
-        cookie:{
-            httpOnly : true,
-            secure : false
-        }
-}));
 //Set Json Use
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
+//Set CSP(Contents Security Policy)
+csp.SetCSP(app);
+
+//Set Mysql Session
+mysqlSession.AddMysqlSession(app);
+
+//https://github.com/jaredhanson/passport/issues/14#issuecomment-4863459
+app.use(express.static(__dirname +'/public'));  //passport보다 밑에 있으면 deserialize를 호출한다(잘못된 동작)
+
+passport.Addpassport(app);
+
 app.listen('3000',()=>console.log('Server Start'));
+app.on('exit',()=>{
+  console.log('bye');
+  sessionStore.close();
+});
