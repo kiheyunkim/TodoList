@@ -1,6 +1,6 @@
 const sha256 = require('sha256');
 const session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
+const  MySQLStore = require('express-mysql-session')(session);
 
 exports.AddMysqlSession = (app)=>{
     var options = {
@@ -10,7 +10,7 @@ exports.AddMysqlSession = (app)=>{
       password: 'toor',
       clearExpired:true,
       database: 'session_test',
-      endConnectionOnClose: true
+      endConnectionOnClose: true,
     };
     
     var sessionStore = new MySQLStore(options);
@@ -20,6 +20,7 @@ exports.AddMysqlSession = (app)=>{
       saveUninitialized : false,
       secret : sha256((Math.random()*Math.random()*100000).toString()),
       store : sessionStore,
-      cookie : { secure : false}, 
+      cookie : { secure : false }
     }));
+
 }
