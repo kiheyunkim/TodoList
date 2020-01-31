@@ -421,3 +421,8 @@ td label#next{
   color: #fff;
   font-weight: bold;
 }
+
+input[type="date"]::-webkit-inner-spin-button{
+    display: none;
+    -webkit-appearance: none;
+}

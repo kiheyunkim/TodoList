@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap" rel="stylesheet"> 
 	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="js/calender.js"></script>
+	<script type="text/javascript" src="js/connection.js"></script>
 	<script>
 		$(document).ready(
 			function(){
@@ -85,14 +86,14 @@
 				<div>
 					<form class="todoTitle" action="">
 						<label>할 일</label>
-						<input type="text" maxlength="15">
+						<input type="text" id="todoMemo" maxlength="15">
 					</form>
 					<form class="todoDday" action="">
 						<label>종료일</label>
-						<input type="date" id="now_date" max="9999-12-31">
+						<input type="date" id="now_date" max="9999-12-31" onkeydown="return false" 	>
 					</form>
 				</div>
-				<input class="submit" type="submit" value="등록"></input>
+				<input class="submit" type="button" value="등록"></input>
 			</div>
 			<!-- 컨텐츠 영역---------------------------------------------------------------------------------------------------------- -->
 			<!-- 달력--------------------------------- -->

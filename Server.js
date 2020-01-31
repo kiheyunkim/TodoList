@@ -7,7 +7,7 @@ const LoginRouter = require('./Router/LoginRouter')
 const CommonRouter = require('./Router/CommonRouter');
 
 //const routers = require('./Router/Router');
-const app = express();
+const app = express();  
 
 //Set Json Use
 app.use(express.json());
@@ -31,7 +31,6 @@ passport.Addpassport(app);
 //Add Routers
 app.use('/login',LoginRouter);    //for login
 app.use('/common',CommonRouter);  //for contents
-
 
 app.listen('3000',()=>console.log('Server Start'));
 app.on('exit',()=>{

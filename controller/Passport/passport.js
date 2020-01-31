@@ -7,8 +7,8 @@ let Addpassport = (app)=>{
     app.use(passport.session());
 
     passport.use(new googleStrategy({
-        clientID: '---',
-        clientSecret: '---',
+        clientID: '586489203795-rkd4q62t9rciad7s60nkau9tmh127qk9.apps.googleusercontent.com',
+        clientSecret: 'EE_TNDmTgAlWddBraSoH7Q3g',
         callbackURL: 'http://localhost:3000/login/google/callback'
     },
     (accessToken, refreshToken, profile, done)=> {      //로그인 되는 순간에 불러온다.
