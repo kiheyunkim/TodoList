@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kiheyunkim.todolist.login.repository.LoginRepository">
+    <select id="isExistUser" parameterType="hashMap" resultType="boolean">
+        SELECT
+                COUNT(*)
+        FROM
+                USER_TABLE
+        WHERE
+            EMAIL = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="hashMap">
+        INSERT INTO USER_TABLE
+                (EMAIL, NAME)
+        VALUES
+                (#{email}, #{name})
+    </insert>
+
+    <select id="selectUserIdentity" parameterType="hashMap" resultType="String">
+        SELECT
+                IDENTITY_ID
+        FROM
+                USER_TABLE
+        WHERE
+                EMAIL = #{email}
+    </select>
+</mapper>
