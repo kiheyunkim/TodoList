@@ -8,7 +8,7 @@
         FROM
                 USER_TABLE
         WHERE
-            EMAIL = #{email}
+                EMAIL = #{email}
     </select>
 
     <insert id="insertUser" parameterType="hashMap">
