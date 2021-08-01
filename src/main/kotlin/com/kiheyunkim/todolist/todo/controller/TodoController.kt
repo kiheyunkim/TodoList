@@ -4,7 +4,6 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import javax.servlet.http.HttpSession
 
 /**
  * IDE : IntelliJ IDEA
@@ -18,9 +17,5 @@ class TodoController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping
-	fun getTodo(httpSession: HttpSession): String{
-
-		println(httpSession.getAttribute("userEmail"))
-		return "todoList"
-	}
+	fun getTodo(): String = "todoList"
 }
