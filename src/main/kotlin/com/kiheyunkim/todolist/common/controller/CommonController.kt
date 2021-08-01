@@ -1,6 +1,7 @@
 package com.kiheyunkim.todolist.common.controller
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import javax.servlet.http.HttpSession
@@ -14,11 +15,16 @@ import javax.servlet.http.HttpSession
 @Controller
 class CommonController {
 	@GetMapping(value = ["/index.html", "/"])
-	fun getIndex(@RequestParam(name = "errorType", required = false) errorType: String?, session: HttpSession): String {
+	fun getIndex(
+		@RequestParam(name = "errorType", required = false) errorType: String?,
+		session: HttpSession,
+		model:Model
+	): String {
 
-		return if(session.getAttribute("userEmail") != null){
+		return if (session.getAttribute("userEmail") != null) {
 			"redirect:/todoList"
-		}else{
+		} else {
+			model.addAttribute("errorType", errorType)
 			"index"
 		}
 	}

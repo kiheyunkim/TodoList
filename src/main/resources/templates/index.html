@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>로그인</title>
 	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300|Rock+Salt&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300|Rock+Salt&display=swap"
+	      rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/css/login.css">
 </head>
 <body>
-	<div id="container">
-		<section>
-			<div class="inner">
-				<h1 class="logo">To Do</h1>
-				<div class="loginbtn">
-					<label>login</label>
-					<a href="/login">google 로그인</a>
-				</div>
+<div id="container">
+	<section>
+		<div class="inner">
+			<h1 class="logo">To Do</h1>
+			<div class="loginbtn">
+				<label>login</label>
+				<a href="/login">google 로그인</a>
 			</div>
-		</section>
-	</div>
+		</div>
+	</section>
+</div>
+<script th:if="${errorType != null}" th:inline="javascript">
+    let errorMsg = [[${errorType}]];
+    if (errorMsg === 'loginFail') {
+        alert('로그인 실패')
+    }
+</script>
 </body>
 </html>
