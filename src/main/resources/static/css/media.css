@@ -1,0 +1,37 @@
+@media screen and (max-width:768px) {
+	#inner{
+		max-width: 768px;
+		width: 100%;
+		float: none;
+	}
+	#inner ul{
+		max-width: 768px;
+	}
+	#paging{
+		max-width: 768px;
+	}
+	
+	#calendar{
+	width: 100%;
+	float: none;
+	max-width: 768px;
+	}
+	thead{
+		max-width: 768px;
+	float: none;
+	padding: 0;
+	padding-top: 30px;
+	}
+	btn-wrap{
+		
+	}
+	.calendar-body{
+		width: 100%;
+		display: table;
+		table-layout: fixed;
+		padding: 10px 0;
+		box-sizing: border-box;
+		max-width: 7768px;
+		float: none;
+	}
+}

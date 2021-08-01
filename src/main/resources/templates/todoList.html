@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>To Do</title>
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" type="text/css" href="/css/todolist.css">
+	<link rel="stylesheet" type="text/css" href="/css/media.css" media="(max-width:768px)">
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap" rel="stylesheet"> 
+	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="/js/calender.js"></script>
+	<script type="text/javascript" src="/js/connection.js"></script>
+	<script>
+		$(document).ready(
+			function(){
+				// 추가 버튼 누르면 취소 버튼 활성화
+				$(".plus").click(
+					function(){
+						$("section").addClass("popupDown");
+						$("section").removeClass("popupUp");
+						$(".plus").addClass("hide");
+						$(".cancel").addClass("show");
+					}
+				);
+
+				// 취소 버튼 누르면 추가 버튼 활성화
+				$(".cancel").click(
+					function(){
+						$("section").toggleClass("popupDown");
+						$("section").toggleClass("popupUp");
+						$(".plus").removeClass("hide");
+						$(".cancel").removeClass("show");
+					}
+				);
+
+				// 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
+				$(".calendar-body tr td").click(
+					function(){
+						$(this).addClass("dayClick");
+						$(this).siblings().removeClass("dayClick");
+						$(this).parent().siblings().children().removeClass("dayClick");
+					}
+				);
+				
+				// //로그인에 성공하면 안에 있는 텍스트가 '로그아웃'으로 변경
+				// if($("").()){
+				// 	$("#navi .login").text('로그아웃');
+				// }
+
+
+
+				//텍스트가 '로그아웃'으로 바뀐 상태에서 클릭하면 텍스트를 '로그인'으로 변경
+				// let loginText = '로그아웃'
+
+				// $("#navi .login").click(
+				// 	function(){
+				// 		if(loginText.match("로그아웃") == "로그아웃"){
+				// 			$("#navi .login").text('로그인');
+				// 		}
+				// 	}
+				// );
+
+				// 현재 날짜가 종료일로 기본 설정 되도록 설정
+				document.getElementById('now_date').valueAsDate = new Date();
+			}	
+		);
+
+		
+
+	</script>
+</head>
+<body>
+	<div id="container">
+		<!-- 상단 영역---------------------------------------------------------------------------------------------------------- -->
+		<header>
+			<nav id="navi">
+				<a class="plus " href="#">추가</a>
+				<a class="cancel" href="#">취소</a>
+				<a class="login" href="/logout">로그아웃</a>
+			</nav>
+		</header>
+		
+		<section>
+			<div id="pluslist">
+				<div>
+					<form class="todoTitle" action="">
+						<label>할 일</label>
+						<input type="text" id="todoMemo" maxlength="15">
+					</form>
+					<form class="todoDday" action="">
+						<label>종료일</label>
+						<input type="date" id="now_date" max="9999-12-31" onkeydown="return false" 	>
+					</form>
+				</div>
+				<input class="submit" type="button" value="등록"></input>
+			</div>
+			<!-- 컨텐츠 영역---------------------------------------------------------------------------------------------------------- -->
+			<!-- 달력--------------------------------- -->
+			<div id="left">
+				<table id="calendar" align="center">
+		          	<thead class="arrow">
+		            	<tr class="btn-wrap clearfix">
+			              	<td>
+			                	<label id="prev">
+			                   		&#60;
+			                	</label>
+			              	</td>
+			              	<td align="center" id="current-year-month" colspan="5"></td>
+			              	<td>
+			                	<label id="next" >
+			                    	&#62;
+			                	</label>
+			              	</td>
+		            	</tr>
+		            </thead>
+		            <thead class="day">
+		            	<tr>
+			                <td class ="sun" align="center">일</td>
+			                <td align="center">월</td>
+			                <td align="center">화</td>
+			                <td align="center">수</td>
+			                <td align="center">목</td>
+			                <td align="center">금</td>
+			                <td class= "sat" align="center">토</td>
+		              	</tr>
+		          	</thead>
+		          	<tbody id="calendar-body" class="calendar-body">
+		          		<tr class="col1">
+		          			<td class="1"></td>
+		          			<td class="2"></td>
+		          			<td class="3"></td>
+		          			<td class="4"></td>
+		          			<td class="5"></td>
+		          			<td class="6"></td>
+		          			<td class="7"></td>
+		          		</tr>
+		          		<tr class="col2">
+		          			<td class="8"></td>
+		          			<td class="9"></td>
+		          			<td class="10"></td>
+		          			<td class="11"></td>
+		          			<td class="12"></td>
+		          			<td class="13"></td>
+		          			<td class="14"></td>
+		          		</tr>
+		          		<tr class="col3">
+		          			<td class="15"></td>
+		          			<td class="16"></td>
+		          			<td class="17"></td>
+		          			<td class="18"></td>
+		          			<td class="19"></td>
+		          			<td class="20"></td>
+		          			<td class="21"></td>
+		          		</tr>
+		          		<tr class="col4">
+		          			<td class="22"></td>
+		          			<td class="23"></td>
+		          			<td class="24"></td>
+		          			<td class="25"></td>
+		          			<td class="26"></td>
+		          			<td class="27"></td>
+		          			<td class="28"></td>
+		          		</tr>
+		          		<tr class="col5">
+		          			<td class="29"></td>
+		          			<td class="30"></td>
+		          			<td class="31"></td>
+		          			<td class="32"></td>
+		          			<td class="33"></td>
+		          			<td class="34"></td>
+		          			<td class="35"></td>
+		          		</tr>
+		          		<tr class="col6">
+		          			<td class="36"></td>
+		          			<td class="37"></td>
+		          			<td class="38"></td>
+		          			<td class="39"></td>
+		          			<td class="40"></td>
+		          			<td class="41"></td>
+		          			<td class="42"></td>
+		          		</tr>
+		          	</tbody>
+		        </table>
+			</div>
+			<!-- to do 목록--------------------------------- -->
+			<div id="todo">
+				<div id="inner">
+					<ul class="page">
+						<li>
+							<div class="content">
+								<span class="dday">D-<b>000</b></span>
+								<p class="title">title</p>
+								<button class="delect">삭제</button>
+							</div>
+						</li>
+						<li>
+							<div class="content">
+								<span class="dday">D-<b>000</b></span>
+								<p class="title">title</p>
+								<button class="delect">삭제</button>
+							</div>
+						</li>
+						<li>
+							<div class="content">
+								<span class="dday">D-<b>000</b></span>
+								<p class="title">title</p>
+								<button class="delect">삭제</button>
+							</div>
+						</li>
+						<li>
+							<div class="content">
+								<span class="dday">D-<b>000</b></span>
+								<p class="title">title</p>
+								<button class="delect">삭제</button>
+							</div>
+						</li>
+						<li>
+							<div class="content">
+								<span class="dday">D-<b>000</b></span>
+								<p class="title">title</p>
+								<button class="delect">삭제</button>
+							</div>
+						</li>
+					</ul>
+					<div id="paging">
+						<div class="btns">
+							<a class="btnPrev" href="#"><em>이전</em></a>
+							<a class="btnNext" href="#"><em>다음</em></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
