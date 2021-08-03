@@ -43,7 +43,7 @@ class SpringSecurityConfiguration(private val customOauth2UserService: CustomOau
 
 		http.
 				logout().
-				logoutSuccessUrl("/").
+				logoutSuccessUrl("/?error=logout").
 				logoutRequestMatcher(AntPathRequestMatcher("/logout","GET")).
 				deleteCookies("JSESSIONID").
 				invalidateHttpSession(true)
