@@ -16,7 +16,4 @@ class LoginService(private val loginRepository: LoginRepository) {
 
 	fun addUser(email: String, name: String) =
 		loginRepository.insertUser(email, name)
-
-	fun getUserIdentity(email: String): String =
-		loginRepository.selectUserIdentity(email)
 }

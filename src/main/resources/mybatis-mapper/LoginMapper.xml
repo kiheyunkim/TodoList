@@ -3,27 +3,15 @@
 
 <mapper namespace="com.kiheyunkim.todolist.login.repository.LoginRepository">
     <select id="isExistUser" parameterType="hashMap" resultType="boolean">
-        SELECT
-                COUNT(*)
-        FROM
-                USER_TABLE
-        WHERE
-                EMAIL = #{email}
+        SELECT COUNT(*)
+        FROM USER_TABLE
+        WHERE EMAIL = #{email}
     </select>
 
     <insert id="insertUser" parameterType="hashMap">
         INSERT INTO USER_TABLE
-                (EMAIL, NAME)
-        VALUES
-                (#{email}, #{name})
+            (EMAIL, NAME)
+        VALUES (#{email}, #{name})
     </insert>
 
-    <select id="selectUserIdentity" parameterType="hashMap" resultType="String">
-        SELECT
-                IDENTITY_ID
-        FROM
-                USER_TABLE
-        WHERE
-                EMAIL = #{email}
-    </select>
 </mapper>

@@ -32,10 +32,6 @@ class CustomOauth2UserService(private val httpSession: HttpSession, private val 
 			loginService.addUser(oauthRequestEmail, oAuth2User.attributes["name"] as String)
 		}
 
-		val userIdentity = loginService.getUserIdentity(oauthRequestEmail)
-
-		httpSession.setAttribute("userIdentity", userIdentity)
-
 		return DefaultOAuth2User(
 			Collections.singleton(SimpleGrantedAuthority("ROLE_USER")),
 			oAuth2User.attributes,

@@ -12,5 +12,4 @@ import org.apache.ibatis.annotations.Mapper
 interface LoginRepository {
 	fun isExistUser(email: String): Boolean
 	fun insertUser(email: String, name: String)
-	fun selectUserIdentity(email: String): String
 }
