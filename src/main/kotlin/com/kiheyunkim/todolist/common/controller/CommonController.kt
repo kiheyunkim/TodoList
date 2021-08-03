@@ -16,11 +16,10 @@ import javax.servlet.http.HttpSession
 class CommonController {
 	@GetMapping(value = ["/index.html", "/"])
 	fun getIndex(
-		@RequestParam(name = "errorType", required = false) errorType: String?,
+		@RequestParam(name = "error", required = false) errorType: String?,
 		session: HttpSession,
 		model:Model
 	): String {
-
 		return if (session.getAttribute("userEmail") != null) {
 			"redirect:/todoList"
 		} else {
