@@ -34,9 +34,8 @@ class TodoController(private val todoService: TodoService) {
 		return TodoResponse(todoService.getTodoElementsCount(email, inquireBaseDate))
 	}
 
-	//PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping("/add")
-	@ResponseBody
 	fun addTodoElement(todoVO: TodoVO, httpSession: HttpSession): TodoResponse<Boolean> {
 		val email: String = httpSession.getAttribute("email") as String
 
