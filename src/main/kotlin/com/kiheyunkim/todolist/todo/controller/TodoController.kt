@@ -6,10 +6,7 @@ import com.kiheyunkim.todolist.todo.model.TodoVO
 import com.kiheyunkim.todolist.todo.service.TodoService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import javax.servlet.http.HttpSession
 
@@ -30,14 +27,14 @@ class TodoController(private val todoService: TodoService) {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/count")
 	fun getTodoElementsCount(inquireBaseDate: LocalDate, httpSession: HttpSession): TodoResponse<Long> {
-		val email: String = httpSession.getAttribute("email") as String
+		val email: String = httpSession.getAttribute("userEmail") as String
 		return TodoResponse(todoService.getTodoElementsCount(email, inquireBaseDate))
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping("/add")
 	fun addTodoElement(todoVO: TodoVO, httpSession: HttpSession): TodoResponse<Boolean> {
-		val email: String = httpSession.getAttribute("email") as String
+		val email: String = httpSession.getAttribute("userEmail") as String
 
 		todoService.addTodoElement(email, todoVO)
 
