@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>To Do</title>
 	<meta charset="utf-8">
-
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<link rel="stylesheet" type="text/css" href="/css/todolist.css">
 	<link rel="stylesheet" type="text/css" href="/css/media.css" media="(max-width:768px)">
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap"
 	      rel="stylesheet">
 	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="/js/calender.js"></script>
-	<script type="text/javascript" src="/js/connection.js"></script>
+	<script type="text/javascript" src="/js/todoList.js"></script>
 	<script>
         $(document).ready(
             function () {
@@ -83,16 +84,14 @@
 	<section>
 		<div id="pluslist">
 			<div>
-				<form class="todoTitle" action="/todoList/add" method="post">
+				<form id="todoForm" class="todoTitle" action="/todoList/add" method="post">
 					<label>할 일</label>
-					<input type="text" id="todoMemo" maxlength="15">
-				</form>
-				<form class="todoDday" action="">
+					<input type="text" id="todoMemo" maxlength="15" name="task">
 					<label>종료일</label>
-					<input type="date" id="now_date" max="9999-12-31" onkeydown="return false">
+					<input type="date" id="now_date" max="9999-12-31" onkeydown="return false" name="endDate">
 				</form>
 			</div>
-			<input class="submit" type="button" value="등록"></input>
+			<input class="submit" type="button" value="등록">
 		</div>
 		<!-- 컨텐츠 영역---------------------------------------------------------------------------------------------------------- -->
 		<!-- 달력--------------------------------- -->
