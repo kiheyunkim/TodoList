@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession
  * Github : http://github.com/kiheyunkim
  * Comment :
  */
-@Controller
+@RestController
 @RequestMapping("/todoList")
 class TodoController(private val todoService: TodoService) {
 
