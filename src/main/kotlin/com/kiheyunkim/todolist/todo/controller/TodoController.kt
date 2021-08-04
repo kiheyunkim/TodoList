@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession
  * Github : http://github.com/kiheyunkim
  * Comment :
  */
-@RestController
+@Controller
 @RequestMapping("/todoList")
 class TodoController(private val todoService: TodoService) {
 
@@ -25,6 +25,7 @@ class TodoController(private val todoService: TodoService) {
 	fun getTodo(): String = "todoList"
 
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
 	@GetMapping("/count")
 	fun getTodoElementsCount(inquireBaseDate: LocalDate, httpSession: HttpSession): TodoResponse<Long> {
 		val email: String = httpSession.getAttribute("userEmail") as String
@@ -32,6 +33,7 @@ class TodoController(private val todoService: TodoService) {
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
 	@PutMapping("/add")
 	fun addTodoElement(todoVO: TodoVO, httpSession: HttpSession): TodoResponse<Boolean> {
 		val email: String = httpSession.getAttribute("userEmail") as String
