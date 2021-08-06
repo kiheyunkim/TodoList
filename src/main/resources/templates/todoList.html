@@ -2,17 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>To Do</title>
+	<title>나만의 작은 스케줄러, ToDo.</title>
 	<meta charset="utf-8">
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-	<link rel="stylesheet" type="text/css" href="/css/todolist.css">
-	<link rel="stylesheet" type="text/css" href="/css/media.css" media="(max-width:768px)">
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap"
-	      rel="stylesheet">
-	<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="/js/calender.js"></script>
-	<script type="text/javascript" src="/js/todoList.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/todolist.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/media.css" media="(max-width:768px)">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200;400&family=Mali:ital,wght@1,200&display=swap" rel="stylesheet"> 
+	
+	<script type="text/javascript" src="../static/js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="../static/js/calender.js"></script>
+	<script type="text/javascript" src="../static/js/todoList.js"></script>
 	<script>
         $(document).ready(
             function () {
@@ -74,13 +78,13 @@
 <div id="container">
 	<!-- 상단 영역---------------------------------------------------------------------------------------------------------- -->
 	<header>
+		<h1 id="title_logo">To Do.</h1>
 		<nav id="navi">
-			<a class="plus " href="#">추가</a>
+			<a class="plus" href="#">추가</a>
 			<a class="cancel" href="#">취소</a>
-			<a class="login" href="/logout">로그아웃</a>
+			<a id="logout" href="/logout">로그아웃</a>
 		</nav>
 	</header>
-
 	<section>
 		<div id="pluslist">
 			<div>
