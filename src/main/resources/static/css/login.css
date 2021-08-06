@@ -6,68 +6,158 @@ body{
   padding: 0;
   overflow: hidden;
   background-color: #fff;
+  font-family: 'Hahmlet', serif;
+  color: #2e333b;
 }
 #container{
   display: table-cell;
   vertical-align: middle;
   width: 100vw;
   height: 100vh;
+  position: relative;
 }
-section{
-  width: 70%;
-  height: 300px;
-  z-index: 10;
+#section{
+  max-width: 480px;
   margin: 0 auto;
+  padding: 2em 2em;
   background-color: #fff;
   border-radius: 5px;
-}
-section .inner{
-  width: 100%;
-  height: 100%;
   text-align: center;
+  animation: fadeIn 1.5s ease-in;
 }
-.inner .logo{
-  float: left;
-  width: 50%;
-  font-size: 4em;
-  font-family: 'Rock Salt', cursive;
-  border-right: 1px solid #e3e3e3;
-  box-sizing: border-box;
-  color: #FF875E;
-  margin: 75px 0;
-  height: 50%;
-  padding: 0 20px;
+@keyframes fadeIn{
+  0%{
+    opacity: 0%;
+  }
+  100%{
+    opacity: 100%;
+  }
 }
-.inner .loginbtn{
-  float: right;
-  width: 50%;
-  height: 50%;
-  margin: 75px 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  padding: 27px 20px;
-  box-sizing: border-box;
-}
-.inner .loginbtn label{
-  display: block;
-  width: 206px;
+
+/* title -------------------------------------------------- */
+#title_logo{
   margin: 0 auto;
-  margin-bottom: 20px;
-  color: #aaa;
-  font-weight: lighter;
-  text-align: left;
+  padding: 0;
+  font-size: 5em;
+  font-family: 'Mali', cursive;
+  box-sizing: border-box;
+  position: relative;
+  height: 96px;
 }
-.inner .loginbtn a{
+#title_logo::before{
+  content: "";
+  background: url(../img/title-ptn-left.png);
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 84px;
+  height: 84px;
   display: inline-block;
-  width: 206px;
-  height: 50px;
+  position: absolute;
+  top: calc(75% - 42px);
+  left: 0;
+  z-index: 10;
+  animation: left 4s infinite;
+}
+@keyframes left{
+  0%{
+    transform: rotate(10deg);
+  }
+  50%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(10deg);
+  }
+}
+#title_logo::after{
+  content: "";
+  background: url(../img/title-ptn-right.png);
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 84px;
+  height: 84px;
+  display: inline-block;
+  position: absolute;
+  top: calc(75% - 42px);
+  right: 0;
+  z-index: 10;
+  animation: right 4s infinite;
+}
+@keyframes right{
+  0%{
+    transform: rotate(10deg);
+  }
+  50%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(10deg);
+  }
+}
+h2{
+  font-size: 1em;
+  margin: 0 auto;
+  padding-bottom: 2em;
+  border-bottom: 2px solid #e2e2e2;
+}
+
+/* login button -------------------------------------------------- */
+#loginBtn_group{
+  margin: 2em 0;
+  box-sizing: border-box;
+  animation: fadeIn 2.5s ease-in;
+}
+#loginBtn_group label{
+  display: none;
+}
+#loginBtn_google{
+  display: inline-block;
+  width: 240px;
+  height: 56px;
   text-decoration: none;
-  color: #000;
   background-image: url(../img/btn_google_signin_light_normal_web@2x.png);
+  background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
   text-indent: -999%;
   overflow: hidden;
 }
-.inner .loginbtn a:active{
+#loginBtn_google:active{
   background-image: url(../img/btn_google_signin_light_pressed_web@2x.png);
+}
+
+/* bottom texts -------------------------------------------------- */
+#text_group{
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  left: calc(50% - 140px);
+  width: 280px;
+  margin-bottom: 1.5em;
+}
+#text_group p{
+  font-size: 0.8em;
+  margin: 0 auto;
+  margin-bottom: 0.5em;
+}
+
+@media screen and (max-width:480px){
+  #title_logo{
+    font-size: 15vw;
+    height: auto;
+  }
+  #title_logo::before, #title_logo::after{
+    width: 20%;
+    position: absolute;
+    top: 20%;
+  }
+  h2{
+    font-size: 1em;
+    padding-bottom: 1em;
+  }
+  #loginBtn_group{
+    margin: 1em 0;
+  }
 }
