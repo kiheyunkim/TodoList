@@ -6,73 +6,15 @@
 	<meta charset="utf-8">
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-	<link rel="stylesheet" type="text/css" href="../static/css/todolist.css">
-	<link rel="stylesheet" type="text/css" href="../static/css/media.css" media="(max-width:768px)">
+	<link rel="stylesheet" type="text/css" href="/css/todolist.css">
+	<link rel="stylesheet" type="text/css" href="/css/media.css" media="(max-width:768px)">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200;400&family=Mali:ital,wght@1,200&display=swap" rel="stylesheet"> 
-	
-	<script type="text/javascript" src="../static/js/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="../static/js/calender.js"></script>
-	<script type="text/javascript" src="../static/js/todoList.js"></script>
-	<script>
-        $(document).ready(
-            function () {
-                // 추가 버튼 누르면 취소 버튼 활성화
-                $(".plus").click(
-                    function () {
-                        $("section").addClass("popupDown");
-                        $("section").removeClass("popupUp");
-                        $(".plus").addClass("hide");
-                        $(".cancel").addClass("show");
-                    }
-                );
-
-                // 취소 버튼 누르면 추가 버튼 활성화
-                $(".cancel").click(
-                    function () {
-                        $("section").toggleClass("popupDown");
-                        $("section").toggleClass("popupUp");
-                        $(".plus").removeClass("hide");
-                        $(".cancel").removeClass("show");
-                    }
-                );
-
-                // 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
-                $(".calendar-body tr td").click(
-                    function () {
-                        $(this).addClass("dayClick");
-                        $(this).siblings().removeClass("dayClick");
-                        $(this).parent().siblings().children().removeClass("dayClick");
-                    }
-                );
-
-                // //로그인에 성공하면 안에 있는 텍스트가 '로그아웃'으로 변경
-                // if($("").()){
-                // 	$("#navi .login").text('로그아웃');
-                // }
-
-
-                //텍스트가 '로그아웃'으로 바뀐 상태에서 클릭하면 텍스트를 '로그인'으로 변경
-                // let loginText = '로그아웃'
-
-                // $("#navi .login").click(
-                // 	function(){
-                // 		if(loginText.match("로그아웃") == "로그아웃"){
-                // 			$("#navi .login").text('로그인');
-                // 		}
-                // 	}
-                // );
-
-                // 현재 날짜가 종료일로 기본 설정 되도록 설정
-                document.getElementById('now_date').valueAsDate = new Date();
-            }
-        );
-
-
-	</script>
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap"
+	      rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200;400&family=Mali:ital,wght@1,200&display=swap"
+	      rel="stylesheet">
 </head>
 <body>
 <div id="container">
@@ -188,7 +130,7 @@
 		<!-- to do 목록--------------------------------- -->
 		<div id="todo">
 			<div id="inner">
-				<ul class="page">
+				<ul id="todoList" class="page">
 					<li>
 						<div class="content">
 							<span class="dday">D-<b>000</b></span>
@@ -235,5 +177,8 @@
 		</div>
 	</section>
 </div>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/calender.js"></script>
+<script type="text/javascript" src="/js/todoList.js"></script>
 </body>
 </html>
