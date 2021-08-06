@@ -26,14 +26,6 @@ class TodoController(private val todoService: TodoService) {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseBody
-	@GetMapping("/count")
-	fun getTodoElementsCount(inquireBaseDate: LocalDate, httpSession: HttpSession): TodoResponse<Long> {
-		val email: String = httpSession.getAttribute("userEmail") as String
-		return TodoResponse(todoService.getTodoElementsCount(email, inquireBaseDate))
-	}
-
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@ResponseBody
 	@PutMapping("/add")
 	fun addTodoElement(todoVO: TodoVO, httpSession: HttpSession): TodoResponse<Boolean> {
 		val email: String = httpSession.getAttribute("userEmail") as String
@@ -41,5 +33,30 @@ class TodoController(private val todoService: TodoService) {
 		todoService.addTodoElement(email, todoVO)
 
 		return TodoResponse(true)
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
+	@GetMapping("/count")
+	fun getTodoElementsCount(
+		@RequestParam(required = false) inquireBaseDate: LocalDate?,
+		httpSession: HttpSession
+	): TodoResponse<Long> {
+		val email: String = httpSession.getAttribute("userEmail") as String
+		return TodoResponse(todoService.getTodoElementsCount(email, inquireBaseDate))
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
+	@GetMapping("/list")
+	fun getTodoList(
+		@RequestParam(required = false) inquireBaseDate: LocalDate?,
+		page: Long,
+		httpSession: HttpSession
+	): TodoResponse<List<TodoElement>> {
+		val email: String = httpSession.getAttribute("userEmail") as String
+
+		println(todoService.getTodoElements(email, inquireBaseDate, page))
+		return TodoResponse(todoService.getTodoElements(email, inquireBaseDate, page))
 	}
 }

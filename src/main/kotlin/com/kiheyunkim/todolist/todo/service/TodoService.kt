@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
 @Service
 class TodoService(private val todoRepository: TodoRepository) {
 
-	fun addTodoElement(email: String, todoVO: TodoVO) =
+	fun addTodoElement(email: String, todoVO: TodoVO){
 		todoRepository.addTodoData(
 			TodoElement(
 				email,
@@ -25,9 +25,12 @@ class TodoService(private val todoRepository: TodoRepository) {
 				LocalDate.now()
 			)
 		)
+	}
 
-	fun getTodoElementsCount(email: String, inquireBaseDate: LocalDate) =
+
+	fun getTodoElementsCount(email: String, inquireBaseDate: LocalDate?) =
 		todoRepository.getTodoTotalCount(email, inquireBaseDate)
 
-	fun getTodoElements(email: String, inquireBaseDate: LocalDate) = todoRepository.getTodoData(email, inquireBaseDate)
+	fun getTodoElements(email: String, inquireBaseDate: LocalDate?, page: Long) =
+		todoRepository.getTodoData(email, inquireBaseDate, page)
 }
