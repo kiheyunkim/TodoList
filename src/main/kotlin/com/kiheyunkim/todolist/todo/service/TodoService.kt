@@ -37,13 +37,22 @@ class TodoService(private val todoRepository: TodoRepository) {
 		)
 
 	fun getTodoElements(email: String, inquireBaseDate: String?, page: Long): List<TodoPageResult> {
+		val baseDate: LocalDate = LocalDate.parse(inquireBaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 		val list = todoRepository.getTodoData(
 			email,
-			LocalDate.parse(inquireBaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+			baseDate,
 			page
 		)
 
-		return list.map { TodoPageResult(it.task, ChronoUnit.DAYS.between(LocalDate.now(), it.endDate)) }
+		return list.map {
+			TodoPageResult(
+				it.task,
+				ChronoUnit.DAYS.between(
+					baseDate,
+					it.endDate
+				)
+			)
+		}
 	}
 
 }
