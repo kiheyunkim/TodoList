@@ -2,6 +2,7 @@ package com.kiheyunkim.todolist.todo.controller
 
 import com.kiheyunkim.todolist.common.model.TodoResponse
 import com.kiheyunkim.todolist.todo.model.TodoElement
+import com.kiheyunkim.todolist.todo.model.TodoPageResult
 import com.kiheyunkim.todolist.todo.model.TodoVO
 import com.kiheyunkim.todolist.todo.service.TodoService
 import org.springframework.security.access.prepost.PreAuthorize
@@ -39,7 +40,7 @@ class TodoController(private val todoService: TodoService) {
 	@ResponseBody
 	@GetMapping("/count")
 	fun getTodoElementsCount(
-		@RequestParam(required = false) inquireBaseDate: LocalDate?,
+		@RequestParam(required = false) inquireBaseDate: String?,
 		httpSession: HttpSession
 	): TodoResponse<Long> {
 		val email: String = httpSession.getAttribute("userEmail") as String
@@ -50,10 +51,10 @@ class TodoController(private val todoService: TodoService) {
 	@ResponseBody
 	@GetMapping("/list")
 	fun getTodoList(
-		@RequestParam(required = false) inquireBaseDate: LocalDate?,
+		@RequestParam(required = false) inquireBaseDate: String?,
 		page: Long,
 		httpSession: HttpSession
-	): TodoResponse<List<TodoElement>> {
+	): TodoResponse<List<TodoPageResult>> {
 		val email: String = httpSession.getAttribute("userEmail") as String
 
 		println(todoService.getTodoElements(email, inquireBaseDate, page))

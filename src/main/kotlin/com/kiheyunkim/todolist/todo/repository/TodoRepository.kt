@@ -42,8 +42,10 @@ class TodoRepository(private val mongoTemplate: MongoTemplate) {
 			Criteria.where("endDate").gte(inquireBaseDate).and("email").`is`(email)
 		}
 
-		val query: Query = Query.query(criteria)/*.with(Sort.by(Sort.Direction.ASC, "endDate")).skip(onPageCount * (page - 1)).limit(onPageCount)*/
+		val query: Query =
+			Query.query(criteria).with(Sort.by(Sort.Direction.ASC, "endDate")).skip(onPageCount * (page - 1))
+				.limit(onPageCount)
 
- 		return mongoTemplate.find(query, TodoElement::class.java, "todoElement")
+		return mongoTemplate.find(query, TodoElement::class.java, "todoElement")
 	}
 }
