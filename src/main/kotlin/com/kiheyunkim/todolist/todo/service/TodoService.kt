@@ -1,11 +1,13 @@
 package com.kiheyunkim.todolist.todo.service
 
 import com.kiheyunkim.todolist.todo.model.TodoElement
+import com.kiheyunkim.todolist.todo.model.TodoPageResult
 import com.kiheyunkim.todolist.todo.model.TodoVO
 import com.kiheyunkim.todolist.todo.repository.TodoRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 /**
  * IDE : IntelliJ IDEA
@@ -16,7 +18,7 @@ import java.time.format.DateTimeFormatter
 @Service
 class TodoService(private val todoRepository: TodoRepository) {
 
-	fun addTodoElement(email: String, todoVO: TodoVO) =
+	fun addTodoElement(email: String, todoVO: TodoVO) {
 		todoRepository.addTodoData(
 			TodoElement(
 				email,
@@ -25,9 +27,23 @@ class TodoService(private val todoRepository: TodoRepository) {
 				LocalDate.now()
 			)
 		)
+	}
 
-	fun getTodoElementsCount(email: String, inquireBaseDate: LocalDate) =
-		todoRepository.getTodoTotalCount(email, inquireBaseDate)
 
-	fun getTodoElements(email: String, inquireBaseDate: LocalDate) = todoRepository.getTodoData(email, inquireBaseDate)
+	fun getTodoElementsCount(email: String, inquireBaseDate: String?) =
+		todoRepository.getTodoTotalCount(
+			email,
+			LocalDate.parse(inquireBaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+		)
+
+	fun getTodoElements(email: String, inquireBaseDate: String?, page: Long): List<TodoPageResult> {
+		val list = todoRepository.getTodoData(
+			email,
+			LocalDate.parse(inquireBaseDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+			page
+		)
+
+		return list.map { TodoPageResult(it.task, ChronoUnit.DAYS.between(LocalDate.now(), it.endDate)) }
+	}
+
 }

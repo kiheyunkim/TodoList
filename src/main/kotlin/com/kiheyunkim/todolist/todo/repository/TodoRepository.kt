@@ -16,22 +16,36 @@ import java.time.LocalDate
  */
 @Repository
 class TodoRepository(private val mongoTemplate: MongoTemplate) {
+	private val onPageCount: Int = 5
+
 	fun addTodoData(todoDate: TodoElement) {
 		mongoTemplate.save(todoDate)
 	}
 
-	fun getTodoTotalCount(email: String, inquireBaseDate: LocalDate): Long {
-		val criteria: Criteria = Criteria.where("endDate").gte(inquireBaseDate).and("endDate").and("email").`is`(email)
+	fun getTodoTotalCount(email: String, inquireBaseDate: LocalDate?): Long {
+
+		val criteria: Criteria = if (inquireBaseDate == null) {
+			Criteria.where("email").`is`(email)
+		} else {
+			Criteria.where("endDate").gte(inquireBaseDate).and("email").`is`(email)
+		}
+
 		val query: Query = Query.query(criteria)
 
-		return mongoTemplate.count(query, "TodoElement")
+		return mongoTemplate.count(query, "todoElement")
 	}
 
-	fun getTodoData(email: String, inquireBaseDate: LocalDate): List<TodoElement> {
-		val criteria: Criteria = Criteria.where("endDate").gte(inquireBaseDate).and("email").`is`(email)
-		val query: Query = Query.query(criteria)
-		query.with(Sort.by(Sort.Direction.ASC, "endDate"))
+	fun getTodoData(email: String, inquireBaseDate: LocalDate?, page: Long): List<TodoElement> {
+		val criteria: Criteria = if (inquireBaseDate == null) {
+			Criteria.where("email").`is`(email)
+		} else {
+			Criteria.where("endDate").gte(inquireBaseDate).and("email").`is`(email)
+		}
 
-		return mongoTemplate.find(query, TodoElement::class.java, "TodoElement")
+		val query: Query =
+			Query.query(criteria).with(Sort.by(Sort.Direction.ASC, "endDate")).skip(onPageCount * (page - 1))
+				.limit(onPageCount)
+
+		return mongoTemplate.find(query, TodoElement::class.java, "todoElement")
 	}
 }
