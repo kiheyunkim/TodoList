@@ -1,56 +1,56 @@
-$(document).ready(() => {
-    let getTodoListTotalCount = (date) => {
-        $.ajax('/todoList/count', {
-            method: 'GET',
-            data: {inquireBaseDate: date}
-        }).done((res) => {
-            $('#todoList').attr('start', 1);
-            $('#todoList').attr('current', 1);
-            $('#todoList').attr('end', Math.ceil(res.result / 5));
-            $('#prevButton').hide()
-            $('#nextButton').show()
-            getTodoList(date, 1);
-        });
+let getTodoListTotalCount = (date) => {
+    $.ajax('/todoList/count', {
+        method: 'GET',
+        data: {inquireBaseDate: date}
+    }).done((res) => {
+        $('#todoList').attr('start', 1);
+        $('#todoList').attr('current', 1);
+        $('#todoList').attr('end', Math.ceil(res.result / 5));
+        $('#prevButton').hide()
+        $('#nextButton').show()
+        getTodoList(date, 1);
+    });
+}
+
+let getTodoList = (date, page) => {
+    $('#prevButton').show();
+    $('#nextButton').show();
+
+    if (page === 1) {
+        $('#prevButton').hide();
     }
 
-    let getTodoList = (date, page) => {
-        $('#prevButton').show();
-        $('#nextButton').show();
+    if (page == $('#todoList').attr('end')) {
+        $('#nextButton').hide();
+    }
 
-        if (page === 1) {
-            $('#prevButton').hide();
-        }
+    $('#todoList').attr('current', page);
 
-        if (page == $('#todoList').attr('end')) {
-            $('#nextButton').hide();
-        }
-
-        $('#todoList').attr('current', page);
-
-        $.ajax('/todoList/list', {
-            method: 'GET',
-            data: {page: page, inquireBaseDate: date}
-        }).done((res) => {
-            $('#todoList').empty()
-            if (res.result.length === 0) {
-                $('#todoList').append(`
+    $.ajax('/todoList/list', {
+        method: 'GET',
+        data: {page: page, inquireBaseDate: date}
+    }).done((res) => {
+        $('#todoList').empty()
+        if (res.result.length === 0) {
+            $('#todoList').append(`
                 <li id="content_empty">
                     <p>등록된 일정이 없어요.</p>
                 </li>
                 `);
-            } else {
-                res.result.forEach((data) => {
-                    $('#todoList').append(makeTodoTemplate(data))
-                });
-                addDeleteEvent();
-                addChangeStatusEvent();
-            }
-        });
-    }
+        } else {
+            res.result.forEach((data) => {
+                $('#todoList').append(makeTodoTemplate(data))
+            });
+            addDeleteEvent();
+            addChangeStatusEvent();
+        }
+    });
+}
 
-    let makeTodoTemplate = (data) => {
-        let diffDate = data.dayDiff < 0 ? '기간지남' : `D-<b>${data.dayDiff}</b>`;
-        return `<li> 
+
+let makeTodoTemplate = (data) => {
+    let diffDate = data.dayDiff < 0 ? '기간지남' : `D-<b>${data.dayDiff}</b>`;
+    return `<li> 
                     <div class="content" content-id="${data.id}">
                         <button class="star-imp ${data.isImportant ? 'star-on' : ''}">중요</button>
                         <span class="dday">${diffDate}</span> 
@@ -58,61 +58,62 @@ $(document).ready(() => {
                         <button class="delete">삭제</button>
                     </div>
                 </li>`;
-    }
+}
 
-    let addDeleteEvent = () => {
-        $('.delete').click(function (event) {
-            if (confirm('삭제하시겠습니까')) {
-                let token = $("meta[name='_csrf']").attr("content");
-                let header = $("meta[name='_csrf_header']").attr("content");
-
-                $.ajax('/todoList/delete', {
-                    method: 'DELETE',
-                    data: {todoId: $(this).parent().attr('content-id')},
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(header, token);
-                    },
-                }).done((res) => {
-                    $('#todoList').empty()
-                    if (res.result) {
-                        alert('삭제되었습니다');
-                    } else {
-                        alert('삭제에 실패했습니다.');
-                    }
-
-                    let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
-                    getTodoListTotalCount(clickedDate);
-                });
-            }
-        });
-    }
-
-    let addChangeStatusEvent = () => {
-        $('.star-imp').click(function (event) {
+let addDeleteEvent = () => {
+    $('.delete').click(function (event) {
+        if (confirm('삭제하시겠습니까')) {
             let token = $("meta[name='_csrf']").attr("content");
             let header = $("meta[name='_csrf_header']").attr("content");
 
-            $.ajax('/todoList/modify', {
-                method: 'POST',
-                data: {todoId: $(this).parent().attr('content-id'), importantState: !$(this).hasClass('star-on')},
+            $.ajax('/todoList/delete', {
+                method: 'DELETE',
+                data: {todoId: $(this).parent().attr('content-id')},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
             }).done((res) => {
-                if (!res.result) {
-                    alert('상태 변경에 오류가 발생했습니다.');
+                $('#todoList').empty()
+                if (res.result) {
+                    alert('삭제되었습니다');
                 } else {
-                    if ($(this).hasClass('star-on')) {
-                        $(this).removeClass('star-on');
-                    } else {
-                        $(this).addClass('star-on');
-                    }
+                    alert('삭제에 실패했습니다.');
                 }
+
+                let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+                getTodoListTotalCount(clickedDate);
             });
+        }
+    });
+}
+
+let addChangeStatusEvent = () => {
+    $('.star-imp').click(function (event) {
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax('/todoList/modify', {
+            method: 'POST',
+            data: {todoId: $(this).parent().attr('content-id'), importantState: !$(this).hasClass('star-on')},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+        }).done((res) => {
+            if (!res.result) {
+                alert('상태 변경에 오류가 발생했습니다.');
+            } else {
+                if ($(this).hasClass('star-on')) {
+                    $(this).removeClass('star-on');
+                } else {
+                    $(this).addClass('star-on');
+                }
+            }
         });
-    }
+    });
+}
 
 
+$(document).ready(() => {
     document.getElementById('now_date').valueAsDate = new Date();
 
     $('.plus').click(function () {
@@ -130,21 +131,6 @@ $(document).ready(() => {
             $("section").toggleClass("popupUp");
             $(".plus").removeClass("hide");
             $(".cancel").removeClass("show");
-        }
-    );
-
-// 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
-    $(".calendar-body tr td").click(function () {
-            if ($(this).text().length === 0) {
-                return;
-            }
-            $(this).addClass("dayClick");
-            $(this).siblings().removeClass("dayClick");
-            $(this).parent().siblings().children().removeClass("dayClick");
-
-            let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
-
-            getTodoListTotalCount(clickedDate);
         }
     );
 
@@ -228,5 +214,5 @@ $(document).ready(() => {
             alert('통신에 오류가 발생했습니다.');
         });
     });
-})
-;
+
+});

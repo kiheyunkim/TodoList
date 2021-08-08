@@ -9,6 +9,7 @@ $(document).ready(() => {
     let currentYear = 0;
     let currentMonth = 0;
     let startPos = 0;
+    let currentDay = 0;
 
     let calendarNumberColumn;
     calendarNumberColumn = $('.col1').children();
@@ -64,8 +65,16 @@ $(document).ready(() => {
 
         let printLength = getDaysOfYearMonth(currentYear, currentMonth);  //한달에 며칠인가?
         for (let i = startPos; i < startPos + printLength; ++i) {
+            let currentDate = new Date();
+            currentDay = currentDate.getDate()
+            if (i - startPos + 1 === currentDay) {
+                $(calendarNumberObjectList[i]).addClass('dayClick');
+            }
             $(calendarNumberObjectList[i]).text(i - startPos + 1);
         }
+
+        let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+        getTodoListTotalCount(clickedDate);
     }
 
     let setNextMonthCalendar = () => {
@@ -78,13 +87,18 @@ $(document).ready(() => {
 
         currentMonth = currentMonth + 1 > 11 ? 0 : currentMonth + 1;
         $(monthField).text(currentYear + "-" + convertMonthString(currentMonth + 1));
+        $('.dayClick').removeClass('dayClick');
 
         let printLength = getDaysOfYearMonth(currentYear, currentMonth);  //한달에 며칠인가?
         for (let i = startPos; i < startPos + printLength; ++i) {
+            if (i - startPos + 1 === currentDay) {
+                $(calendarNumberObjectList[i]).addClass('dayClick');
+            }
             $(calendarNumberObjectList[i]).text(i - startPos + 1);
         }
 
-        $('.dayClick').removeClass('dayClick')
+        let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+        getTodoListTotalCount(clickedDate);
     }
 
     let setPrevMonthCalendar = () => {
@@ -98,17 +112,37 @@ $(document).ready(() => {
         $(monthField).text(currentYear + "-" + convertMonthString(currentMonth + 1));
         startPos = (startPos - (notLeapYear[currentMonth] % 7) + 7) % 7;
 
+        $('.dayClick').removeClass('dayClick');
         let printLength = getDaysOfYearMonth(currentYear, currentMonth);  //한달에 며칠인가?
         for (let i = startPos; i < startPos + printLength; ++i) {
+            if (i - startPos + 1 === currentDay) {
+                $(calendarNumberObjectList[i]).addClass('dayClick');
+            }
             $(calendarNumberObjectList[i]).text(i - startPos + 1);
         }
 
-        $('.dayClick').removeClass('dayClick')
+        let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+        getTodoListTotalCount(clickedDate);
     }
 
     $('#next').on('click', setNextMonthCalendar);
     $('#prev').on('click', setPrevMonthCalendar);
 
+    // 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
+    $(".calendar-body tr td").click(function () {
+            if ($(this).text().length === 0) {
+                return;
+            }
+            $(this).addClass("dayClick");
+            $(this).siblings().removeClass("dayClick");
+            $(this).parent().siblings().children().removeClass("dayClick");
+
+            let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+            currentDay = $('.dayClick').text().padStart(2, 0)
+
+            getTodoListTotalCount(clickedDate);
+        }
+    );
 
     makeToDaysCalendar();
 });
