@@ -11,10 +11,7 @@
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900|Open+Sans+Condensed:300&display=swap"
-	      rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200;400&family=Mali:ital,wght@1,200&display=swap"
-	      rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100;200;300;400;500;600;700;800;900&family=Mali:wght@200&family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Open+Sans+Condensed:wght@300;700&display=swap" rel="stylesheet"> 
 </head>
 <body>
 <div id="container">
@@ -31,43 +28,46 @@
 		<div id="pluslist">
 			<div>
 				<form id="todoForm" class="todoTitle" action="/todoList/add" method="post">
-					<label>할 일</label>
-					<input type="text" id="todoMemo" maxlength="15" name="task">
-					<label>종료일</label>
-					<input type="date" id="now_date" max="9999-12-31" onkeydown="return false" name="endDate">
+					<fieldset>
+						<legend>오늘부터 시작할 일을 등록해봐요!</legend>
+						<label>할 일</label>
+						<input type="text" id="todoMemo" maxlength="15" name="task">
+						<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
+						<button class="star-imp">중요</button><br>
+						<label>종료일</label>
+						<input type="date" id="now_date" max="2200-12-31" onkeydown="return false" name="endDate">
+					</fieldset>
 				</form>
 			</div>
 			<input class="submit" type="button" value="등록">
 		</div>
-		<!-- 컨텐츠 영역---------------------------------------------------------------------------------------------------------- -->
-		<!-- 달력--------------------------------- -->
+		<!-- 컨텐츠 영역 -->
+		<!-- 달력 -->
 		<div id="left">
-			<table id="calendar" align="center">
+			<table id="calendar">
 				<thead class="arrow">
-				<tr class="btn-wrap clearfix">
-					<td>
-						<label id="prev">
-							&#60;
-						</label>
-					</td>
-					<td align="center" id="current-year-month" colspan="5"></td>
-					<td>
-						<label id="next">
-							&#62;
-						</label>
-					</td>
-				</tr>
-				</thead>
-				<thead class="day">
-				<tr>
-					<td class="sun" align="center">일</td>
-					<td align="center">월</td>
-					<td align="center">화</td>
-					<td align="center">수</td>
-					<td align="center">목</td>
-					<td align="center">금</td>
-					<td class="sat" align="center">토</td>
-				</tr>
+					<tr class="btn-wrap clearfix">
+						<td>
+							<label id="prev">
+								&#60;
+							</label>
+						</td>
+						<td id="current-year-month" colspan="5"></td>
+						<td>
+							<label id="next">
+								&#62;
+							</label>
+						</td>
+					</tr>
+					<tr class="day">
+						<td class="sun">일</td>
+						<td>월</td>
+						<td>화</td>
+						<td>수</td>
+						<td>목</td>
+						<td>금</td>
+						<td class="sat">토</td>
+					</tr>
 				</thead>
 				<tbody id="calendar-body" class="calendar-body">
 				<tr class="col1">
@@ -127,17 +127,31 @@
 				</tbody>
 			</table>
 		</div>
-		<!-- to do 목록--------------------------------- -->
+		<!-- to do 목록 -->
 		<div id="todo">
 			<div id="inner">
 				<ul id="todoList" class="page">
-					<!--<li>
+					<li id="content_empty">
+						<p>등록된 일정이 없어요.</p>
+					</li>
+                    <li>
 						<div class="content">
+							<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
+							<button class="star-imp">중요</button>
 							<span class="dday">D-<b>000</b></span>
 							<p class="title">title</p>
 							<button class="delect">삭제</button>
 						</div>
-					</li>-->
+					</li>
+					<li>
+						<div class="content">
+							<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
+							<button class="star-imp star-on">중요</button>
+							<span class="dday">D-<b>000</b></span>
+							<p class="title">title</p>
+							<button class="delect">삭제</button>
+						</div>
+					</li>
 				</ul>
 				<div id="paging">
 					<div class="btns">
