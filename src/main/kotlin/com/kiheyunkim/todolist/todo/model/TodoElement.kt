@@ -1,5 +1,6 @@
 package com.kiheyunkim.todolist.todo.model
 
+import org.springframework.data.annotation.Id
 import java.time.LocalDate
 
 /**
@@ -9,6 +10,7 @@ import java.time.LocalDate
  * Comment :
  */
 data class TodoElement(
+	@Id val id: Long,
 	val email: String,
 	val task: String,
 	val endDate: LocalDate,
