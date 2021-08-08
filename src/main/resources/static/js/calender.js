@@ -83,6 +83,8 @@ $(document).ready(() => {
         for (let i = startPos; i < startPos + printLength; ++i) {
             $(calendarNumberObjectList[i]).text(i - startPos + 1);
         }
+
+        $('.dayClick').removeClass('dayClick')
     }
 
     let setPrevMonthCalendar = () => {
@@ -100,6 +102,8 @@ $(document).ready(() => {
         for (let i = startPos; i < startPos + printLength; ++i) {
             $(calendarNumberObjectList[i]).text(i - startPos + 1);
         }
+
+        $('.dayClick').removeClass('dayClick')
     }
 
     $('#next').on('click', setNextMonthCalendar);
