@@ -32,17 +32,18 @@ $(document).ready(() => {
             data: {page: page, inquireBaseDate: date}
         }).done((res) => {
             $('#todoList').empty()
-            if(res.result.length === 0){
+            if (res.result.length === 0) {
                 $('#todoList').append(`
                 <li id="content_empty">
                     <p>등록된 일정이 없어요.</p>
                 </li>
                 `);
-            }else{
+            } else {
                 res.result.forEach((data) => {
                     $('#todoList').append(makeTodoTemplate(data))
                 });
                 addDeleteEvent();
+                addChangeStatusEvent();
             }
         });
     }
@@ -59,11 +60,55 @@ $(document).ready(() => {
                 </li>`;
     }
 
-    let addDeleteEvent = () =>{
-        $('.delete').click(function (event){
-            if(confirm('삭제하시겠습니까')){
-                console.log($(this).parent().attr('content-id'));
+    let addDeleteEvent = () => {
+        $('.delete').click(function (event) {
+            if (confirm('삭제하시겠습니까')) {
+                let token = $("meta[name='_csrf']").attr("content");
+                let header = $("meta[name='_csrf_header']").attr("content");
+
+                $.ajax('/todoList/delete', {
+                    method: 'DELETE',
+                    data: {todoId: $(this).parent().attr('content-id')},
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                }).done((res) => {
+                    $('#todoList').empty()
+                    if (res.result) {
+                        alert('삭제되었습니다');
+                    } else {
+                        alert('삭제에 실패했습니다.');
+                    }
+
+                    let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+                    getTodoListTotalCount(clickedDate);
+                });
             }
+        });
+    }
+
+    let addChangeStatusEvent = () => {
+        $('.star-imp').click(function (event) {
+            let token = $("meta[name='_csrf']").attr("content");
+            let header = $("meta[name='_csrf_header']").attr("content");
+
+            $.ajax('/todoList/modify', {
+                method: 'POST',
+                data: {todoId: $(this).parent().attr('content-id'), importantState: !$(this).hasClass('star-on')},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+            }).done((res) => {
+                if (!res.result) {
+                    alert('상태 변경에 오류가 발생했습니다.');
+                } else {
+                    if ($(this).hasClass('star-on')) {
+                        $(this).removeClass('star-on');
+                    } else {
+                        $(this).addClass('star-on');
+                    }
+                }
+            });
         });
     }
 
@@ -88,7 +133,7 @@ $(document).ready(() => {
         }
     );
 
-    // 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
+// 특정 날을 달력에서 클릭하면 다른 날 클릭 비활성화
     $(".calendar-body tr td").click(function () {
             if ($(this).text().length === 0) {
                 return;
@@ -174,8 +219,14 @@ $(document).ready(() => {
             } else {
                 alert('등록에 실패했습니다.');
             }
+
+            let clickedDate = $('#current-year-month').text() + '-' + $('.dayClick').text().padStart(2, 0);
+            if ($('.dayClick').length !== 0) {
+                getTodoListTotalCount(clickedDate);
+            }
         }).fail(() => {
             alert('통신에 오류가 발생했습니다.');
         });
     });
-});
+})
+;

@@ -52,7 +52,7 @@ class TodoRepository(private val mongoTemplate: MongoTemplate) {
 	}
 
 	fun changeTodoState(email: String, todoId: Long, importantState: Boolean) {
-		val criteria: Criteria = Criteria.where("email").`is`(email).and("id").`is`(todoId)
+		val criteria: Criteria = Criteria.where("email").`is`(email).and("_id").`is`(todoId)
 
 		val update: Update = Update.update("isImportant", importantState)
 
@@ -60,7 +60,7 @@ class TodoRepository(private val mongoTemplate: MongoTemplate) {
 	}
 
 	fun deleteTodoElement(email: String, todoId: Long) {
-		val criteria: Criteria = Criteria.where("email").`is`(email).and("id").`is`(todoId)
+		val criteria: Criteria = Criteria.where("email").`is`(email).and("_id").`is`(todoId)
 
 		mongoTemplate.remove(Query.query(criteria), "todoElement")
 	}
