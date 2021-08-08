@@ -5,6 +5,8 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import org.springframework.data.mongodb.core.query.Update
+import org.springframework.data.mongodb.core.remove
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
@@ -47,5 +49,19 @@ class TodoRepository(private val mongoTemplate: MongoTemplate) {
 				.limit(onPageCount)
 
 		return mongoTemplate.find(query, TodoElement::class.java, "todoElement")
+	}
+
+	fun changeTodoState(email: String, todoId: Long, importantState: Boolean) {
+		val criteria: Criteria = Criteria.where("email").`is`(email).and("_id").`is`(todoId)
+
+		val update: Update = Update.update("isImportant", importantState)
+
+		mongoTemplate.updateFirst(Query.query(criteria), update, "todoElement")
+	}
+
+	fun deleteTodoElement(email: String, todoId: Long) {
+		val criteria: Criteria = Criteria.where("email").`is`(email).and("_id").`is`(todoId)
+
+		mongoTemplate.remove(Query.query(criteria), "todoElement")
 	}
 }

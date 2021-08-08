@@ -57,7 +57,33 @@ class TodoController(private val todoService: TodoService) {
 	): TodoResponse<List<TodoPageResult>> {
 		val email: String = httpSession.getAttribute("userEmail") as String
 
-		println(todoService.getTodoElements(email, inquireBaseDate, page))
 		return TodoResponse(todoService.getTodoElements(email, inquireBaseDate, page))
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
+	@PostMapping("/modify")
+	fun postModifyState(
+		todoId: Long,
+		importantState: Boolean,
+		httpSession: HttpSession
+	): TodoResponse<Boolean> {
+		val email: String = httpSession.getAttribute("userEmail") as String
+		todoService.changeTodoElementState(email, todoId, importantState)
+
+		return TodoResponse(true)
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseBody
+	@DeleteMapping("/delete")
+	fun deleteTodoElement(
+		todoId: Long,
+		httpSession: HttpSession
+	): TodoResponse<Boolean> {
+		val email: String = httpSession.getAttribute("userEmail") as String
+		todoService.deleteTodoElement(email, todoId)
+
+		return TodoResponse(true)
 	}
 }
