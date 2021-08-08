@@ -357,7 +357,7 @@ header{
   padding: 20px;
   box-sizing: border-box;
 }
-.star-imp, .first-star-imp{
+.star-imp{
   border: none;
   cursor: pointer;
   width: 24px;
@@ -366,8 +366,9 @@ header{
   text-indent: -999%;
   overflow: hidden;
   margin-right: 4px;
+  background-color: transparent;
 }
-.star-imp::before, .first-star-imp::before{
+.star-imp::before{
   content:"";
   position:absolute;
   top: 0;
@@ -397,7 +398,7 @@ header{
   font-weight: 300;
   vertical-align: text-bottom;
 }
-.content .delect{
+.content .delete{
   float: right;
   border: transparent;
   cursor: pointer;
@@ -409,10 +410,10 @@ header{
   color: transparent;
   margin-top: 4px;
 }
-.content .delect::after{
+.content .delete::after{
   content: "";
   position: absolute;
-  background-image: url(../img/delect.png);
+  background-image: url(../img/delete.png);
   top: 0;
   right: 0;
   background-size: contain;
