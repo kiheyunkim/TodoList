@@ -8,5 +8,6 @@ package com.kiheyunkim.todolist.todo.model
  */
 data class TodoVO(
 	val task: String,
-	val endDate: String
+	val endDate: String,
+	val isImportant: Boolean
 )

@@ -33,7 +33,7 @@
 						<label>할 일</label>
 						<input type="text" id="todoMemo" maxlength="15" name="task">
 						<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
-						<button class="star-imp">중요</button><br>
+						<button id="importantButton" class="star-imp">중요</button><br>
 						<label>종료일</label>
 						<input type="date" id="now_date" max="2200-12-31" onkeydown="return false" name="endDate">
 					</fieldset>
@@ -131,27 +131,18 @@
 		<div id="todo">
 			<div id="inner">
 				<ul id="todoList" class="page">
-					<li id="content_empty">
+					<!--<li id="content_empty">
 						<p>등록된 일정이 없어요.</p>
-					</li>
-                    <li>
+					</li>-->
+                    <!--<li>
 						<div class="content">
-							<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
+							&lt;!&ndash; 중요도 표시, 클릭 시 star-on 클래스 추가 &ndash;&gt;
 							<button class="star-imp">중요</button>
 							<span class="dday">D-<b>000</b></span>
 							<p class="title">title</p>
-							<button class="delect">삭제</button>
+							<button class="delete">삭제</button>
 						</div>
-					</li>
-					<li>
-						<div class="content">
-							<!-- 중요도 표시, 클릭 시 star-on 클래스 추가 -->
-							<button class="star-imp star-on">중요</button>
-							<span class="dday">D-<b>000</b></span>
-							<p class="title">title</p>
-							<button class="delect">삭제</button>
-						</div>
-					</li>
+					</li>-->
 				</ul>
 				<div id="paging">
 					<div class="btns">

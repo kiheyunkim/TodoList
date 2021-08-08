@@ -32,7 +32,8 @@ class TodoService(
 				email,
 				todoVO.task,
 				LocalDate.parse(todoVO.endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-				LocalDate.now()
+				LocalDate.now(),
+				todoVO.isImportant
 			)
 		)
 	}
@@ -59,9 +60,18 @@ class TodoService(
 				ChronoUnit.DAYS.between(
 					baseDate,
 					it.endDate
-				)
+				),
+				it.isImportant
 			)
 		}
+	}
+
+	fun changeTodoElementState(email: String, todoElementId: Long, importantState: Boolean) {
+		todoRepository.changeTodoState(email, todoElementId, importantState)
+	}
+
+	fun deleteTodoElement(email: String, todoElementId: Long) {
+		todoRepository.deleteTodoElement(email, todoElementId)
 	}
 
 }

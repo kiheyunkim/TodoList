@@ -32,21 +32,39 @@ $(document).ready(() => {
             data: {page: page, inquireBaseDate: date}
         }).done((res) => {
             $('#todoList').empty()
-            res.result.forEach((data) => {
-                $('#todoList').append(makeTodoTemplate(data))
-            })
+            if(res.result.length === 0){
+                $('#todoList').append(`
+                <li id="content_empty">
+                    <p>등록된 일정이 없어요.</p>
+                </li>
+                `);
+            }else{
+                res.result.forEach((data) => {
+                    $('#todoList').append(makeTodoTemplate(data))
+                });
+                addDeleteEvent();
+            }
         });
     }
 
     let makeTodoTemplate = (data) => {
         let diffDate = data.dayDiff < 0 ? '기간지남' : `D-<b>${data.dayDiff}</b>`;
         return `<li> 
-                    <div class="content">
+                    <div class="content" content-id="${data.id}">
+                        <button class="star-imp ${data.isImportant ? 'star-on' : ''}">중요</button>
                         <span class="dday">${diffDate}</span> 
                         <p class="title">${data.task}</p>
-                        <button class="delect">삭제</button>
+                        <button class="delete">삭제</button>
                     </div>
                 </li>`;
+    }
+
+    let addDeleteEvent = () =>{
+        $('.delete').click(function (event){
+            if(confirm('삭제하시겠습니까')){
+                console.log($(this).parent().attr('content-id'));
+            }
+        });
     }
 
 
@@ -105,6 +123,16 @@ $(document).ready(() => {
         getTodoList(clickedDate, currentPage + 1);
     });
 
+
+    $('#importantButton').click(function (event) {
+        event.preventDefault()
+        if ($(this).hasClass('star-on')) {
+            $(this).removeClass('star-on');
+        } else {
+            $(this).addClass('star-on');
+        }
+    });
+
     $('.submit').click((event) => {
         event.preventDefault();
 
@@ -123,8 +151,13 @@ $(document).ready(() => {
 
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
+        let importantStar = $('#importantButton')
 
-        let sendData = {task: task, endDate: date.toISOString().split('T')[0]};
+        let sendData = {
+            task: task,
+            endDate: date.toISOString().split('T')[0],
+            isImportant: importantStar.hasClass('star-on')
+        };
         $.ajax('/todoList/add', {
             method: 'PUT',
             data: sendData,
@@ -134,10 +167,10 @@ $(document).ready(() => {
         }).done((res) => {
             if (res.result) {
                 alert('등록되었습니다');
-
                 $('#todoMemo').val('');
-                $('#now_date').valueAsDate = new Date();
+                $('#now_date').val((new Date()).toISOString().split('T')[0]);
                 $('.cancel').click();
+                importantStar.removeClass('star-on');
             } else {
                 alert('등록에 실패했습니다.');
             }

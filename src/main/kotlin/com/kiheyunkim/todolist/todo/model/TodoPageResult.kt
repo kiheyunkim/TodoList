@@ -6,4 +6,4 @@ package com.kiheyunkim.todolist.todo.model
  * Github : http://github.com/kiheyunkim
  * Comment :
  */
-data class TodoPageResult(val id: Long, val task: String, val dayDiff: Long)
+data class TodoPageResult(val id: Long, val task: String, val dayDiff: Long, val isImportant: Boolean)

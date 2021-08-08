@@ -14,5 +14,6 @@ data class TodoElement(
 	val email: String,
 	val task: String,
 	val endDate: LocalDate,
-	val registerDate: LocalDate
+	val registerDate: LocalDate,
+	val isImportant: Boolean
 )
