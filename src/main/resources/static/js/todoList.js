@@ -5,7 +5,7 @@ let getTodoListTotalCount = (date) => {
     }).done((res) => {
         $('#todoList').attr('start', 1);
         $('#todoList').attr('current', 1);
-        $('#todoList').attr('end', Math.ceil(res.result / 5));
+        $('#todoList').attr('end', Math.ceil(res.result / 5) === 0 ? 1 : Math.ceil(res.result / 5));
         $('#prevButton').hide()
         $('#nextButton').show()
         getTodoList(date, 1);
