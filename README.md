@@ -25,6 +25,7 @@ programming: [김기현](https://github.com/kiheyunkim)
 1. 구글 로그인을 통한 사용자 구분
 2. 중요/비중요로 구분하여 별 표시를 하도록 변경
 3. 해당 날짜를 클릭한 경우 등록되어있는 자신의 목록중 끝나는 날짜가 클릭된 날짜보다 이전인 경우 해당하는 모든 스케쥴 목록을 보여줌. 
+4. 반응형으로 제작되어 PC/Mobile 화면 대응 가능
 
 ## ScreenShots
 
@@ -42,8 +43,12 @@ programming: [김기현](https://github.com/kiheyunkim)
 
 ![7](./screentshots/7.PNG)
 
+<img src="./screentshots/8.PNG" alt="8" style="zoom: 67%;" /><img src="./screentshots/9.PNG" alt="9" style="zoom: 67%;" />
+
+
 
 ## DB Schema
+
 MariaDB
 ```sql
 CREATE TABLE IF NOT EXISTS USER_TABLE
