@@ -20,8 +20,8 @@ design: [최송은](https://github.com/ostrichtofu)
 
 programming: [김기현](https://github.com/kiheyunkim)
 
+## Feature
 
-##Feature
 1. 구글 로그인을 통한 사용자 구분
 2. 중요/비중요로 구분하여 별 표시를 하도록 변경
 3. 해당 날짜를 클릭한 경우 등록되어있는 자신의 목록중 끝나는 날짜가 클릭된 날짜보다 이전인 경우 해당하는 모든 스케쥴 목록을 보여줌. 
